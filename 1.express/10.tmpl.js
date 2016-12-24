@@ -33,11 +33,36 @@ var users = [
    }
    next();
 });*/
+
+//  /node_modules/bootstrap/dist/css/bootstrap.css
+/*app.get('/node_modules/bootstrap/dist/css/bootstrap.css',function(req,res){
+    res.sendFile(path.resolve('..'+req.path));
+});*/
+//写一个中间件用来处理所有的静态文件请求
+/*app.use(function(req,res,next){
+    //把当前模块的绝对路径+public+客户端传过来的路径名
+   var filename = path.join(__dirname,'public',req.path);
+   fs.exists(filename,function(exists){
+       if(exists){
+           res.sendFile(filename);
+       }else{
+           next();
+       }
+   })
+});*/
+//静态文件中间件，也是express自己亲自的一个唯一中间件
+//参数指定的是静态文件根目录
+//可以指定多个静态文件根目录
+app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.resolve('../node_modules')));
+
 app.get('/users',function(req,res){
     //1 参数是模板的相对路径 2 参数是数据对象
     //模板中的变量会从数据对象的属性取值
     //模板的渲染把静态模板里的变量用数据对象的属性替换掉
    res.render('user',{users:users});
 });
+
+
 
 app.listen(8080);
