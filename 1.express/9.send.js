@@ -1,12 +1,14 @@
 var express = require('express');
 var _server = require('_http_server');
+var path = require('path');
+var fs = require('fs')
 var app = express();
 var users = [
     {id:1,name:'zfpx1'},
     {id:2,name:'zfpx2'},
     {id:3,name:'zfpx3'}
 ]
-app.use(function(req,res,next){
+/*app.use(function(req,res,next){
     //send方法可以任何类型的参数,并转成字符串
     res.send = function(data){
       var type = typeof data;
@@ -23,6 +25,18 @@ app.use(function(req,res,next){
       res.end(data);
     }
     next();
+});*/
+app.get('/',function(req,res){
+  /*fs.readFile('./index.html',function(err,data){
+     res.setHeader('Content-Type','text/html;charset=utf-8');
+     res.end(data);
+  })*/
+  //fs.createReadStream('./index.html').pipe(res);
+    //path must be absolute or specify root to res.sendFile
+    //或者指定一个绝对路径
+    //res.sendFile(path.resolve('index.html'));
+    //写相对路径，但要指定是相对于哪个绝对路径的相对路径
+    res.sendFile('index.html',{root:__dirname});
 });
 // /users
 app.get('/users',function(req,res){
@@ -34,7 +48,10 @@ app.get('/users/:id',function(req,res){
     res.send(user);
 });
 app.all('*',function(req,res){
-    res.send(404);
+    //使用系统自带的原因短语
+    //res.sendStatus(404); Not Found
+    //指定状态码，并自己提供响应体
+    res.status(404).send('你访问的页面不存在');
 });
 
 
