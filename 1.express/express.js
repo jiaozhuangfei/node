@@ -4,7 +4,7 @@ function createApplication(){
       //获取到请求的方法名
     var method = req.method;
     //获取到请求的路径 请求的路径在没有查询字符串的时候 req.url =pathname
-    var pathname = req.url;
+    var pathname = require('url').parse(req.url,true).pathname;
     for(var i=0;i<app.routes.length;i++){
         var layer = app.routes[i];
         if(layer.method == method && layer.pathname == pathname){
