@@ -18,25 +18,28 @@ app.get('/hair',function(req,res){
        var sessionObj = sessions[oldCardNo];
        //判断此卡号在服务器端有没有对应的记录
        if(sessionObj){
-           sessionObj.money -= 20;
-           res.send(`亲爱的客人,你的当前余额是${sessionObj.money}元`);
+           if(sessionObj.money<20){
+               banKa(res);
+           }else{
+               sessionObj.money -= 20;
+               res.send(`亲爱的客人,你的当前余额是${sessionObj.money}元`);
+           }
        }else{
-           banKa();
+           banKa(res);
        }
    }else{
-       banKa();
-   }
-   function banKa(){
-       //1.生成一个卡号 1.要求不容易被猜到 2.永远不会重复
-       var cardNo = Date.now()+"."+Math.random();
-       //在服务端记录此卡号对应的余额
-       sessions[cardNo] = {
-           money:100 //余额还剩100
-       };
-       //通过cookie把卡号发给客户端
-       res.cookie(SESSION_KEY,cardNo);
-       res.send(`亲爱的客人,送你一张理发卡,余额是100元`);
+       banKa(res);
    }
 });
-
+function banKa(res){
+    //1.生成一个卡号 1.要求不容易被猜到 2.永远不会重复
+    var cardNo = Date.now()+"."+Math.random();
+    //在服务端记录此卡号对应的余额
+    sessions[cardNo] = {
+        money:100 //余额还剩100
+    };
+    //通过cookie把卡号发给客户端
+    res.cookie(SESSION_KEY,cardNo);
+    res.send(`亲爱的客人,送你一张理发卡,余额是100元`);
+}
 app.listen(9090);
