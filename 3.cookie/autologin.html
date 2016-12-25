@@ -12,8 +12,9 @@
 <script>
   //页面加载成功后，会自动去读取cookie,如果cookie有用户名，则自动填写用户名到input框，如果cookie用户名，则弹出一个输入框提交输入。输入完成保存到cookie中
     function getCookie(name){ //username
-        // username=zfpx; age=8
-
+        // home=beijing; username=zfpx; age=8
+        var result = document.cookie.match(new RegExp('(; |^)'+name+'='+'(\\w+)(; |$)'));
+        return result?result[2]:'';
     }
     function setCookie(name,value){
        document.cookie = name+'='+value;
@@ -25,7 +26,7 @@
             setCookie('username',username);
         }
         document.querySelector('#username').value = username;
-
+        window.open('welcome.html','_self');
     }
 </script>
 </body>
