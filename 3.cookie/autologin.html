@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动登录</title>
+</head>
+<body>
+<form>
+    用户名<input type="text" name="username" id="username">
+    <input type="submit" value="登录">
+</form>
+<script>
+  //页面加载成功后，会自动去读取cookie,如果cookie有用户名，则自动填写用户名到input框，如果cookie用户名，则弹出一个输入框提交输入。输入完成保存到cookie中
+    function getCookie(name){ //username
+        // username=zfpx; age=8
+
+    }
+    function setCookie(name,value){
+       document.cookie = name+'='+value;
+    }
+    window.onload = function(){
+        var username = getCookie('username');
+        if(!username){
+            username = prompt('请输入用户名');
+            setCookie('username',username);
+        }
+        document.querySelector('#username').value = username;
+
+    }
+</script>
+</body>
+</html>
