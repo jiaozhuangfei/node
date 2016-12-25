@@ -34,4 +34,19 @@ app.get('/user/signup',function(req,res){
     res.render('signup',{error:'',
     success:req.session.success});
 });
+
+
+app.get('/signup',function(req,res){
+    res.render('signup',{error:req.session.error});
+});
+app.post('/signup',function(req,res){
+     var user = req.body;
+     req.session.error = '用户名重复';
+     req.session.user = user;
+     //res.render('signup',{error:req.session.error});
+     res.redirect('/signup');
+});
+
+
+
 app.listen(8080);
