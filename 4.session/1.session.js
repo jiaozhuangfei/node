@@ -18,7 +18,7 @@ app.get('/hair',function(req,res){
        var sessionObj = sessions[oldCardNo];
        //判断此卡号在服务器端有没有对应的记录
        if(sessionObj){
-           if(sessionObj.money<20){
+           if(sessionObj.money<20 || Date.now()>sessionObj.expires){
                banKa(res);
            }else{
                sessionObj.money -= 20;
@@ -36,6 +36,8 @@ function banKa(res){
     var cardNo = Date.now()+"."+Math.random();
     //在服务端记录此卡号对应的余额
     sessions[cardNo] = {
+        //记录此卡的过期时间戳
+        expires:Date.now()+10*1000,
         money:100 //余额还剩100
     };
     //通过cookie把卡号发给客户端
