@@ -17,6 +17,12 @@ app.get('/read',function(req,res){
   res.send(req.session.name);
 });
 app.get('/hair',function(req,res){
-
+    if(!req.session.money){
+        req.session.money=100;
+        res.send("新办了一张卡，充值100元")
+    }else{
+        req.session.money-=20;
+        res.send("您卡内剩余"+req.session.money+"元");
+    }
 });
 app.listen(8080);
