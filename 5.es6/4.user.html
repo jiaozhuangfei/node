@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul id="users">
+    <li>1:zfpx1</li>
+    <li>2:zfpx2</li>
+</ul>
+<script>
+    //ajax对象
+    var xhr = new XMLHttpRequest();
+    // 打开请求，指定方法名 请求的文件名 是否异步
+    xhr.open('get', 'users.json', true);
+    //指定xhr.readyState状态发生改变时执行的回调
+    // 4 表示响应数据已经接收完毕 并且状态码等于200
+    //指定响应类型等于json的话，那么浏览器会自动响应的内容转成json
+    xhr.responseType = 'json';
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            //尽量不要给全局对象赋属性
+         /*   var data = 'JSON' in window ? JSON.parse(xhr.responseText) : eval('(' + xhr.responseText + ')');*/
+          //得到了JSON数组了
+          let  data =  xhr.response;
+          var users = document.getElementById('users');
+         /* var str = '';
+          for(let i=0;i<data.length;i++){
+              str += `<li>${data[i].id}:${data[i].name}</li>`;
+          }*/
+          users.innerHTML =  data.map(function(user){
+                return `<li>${user.id}:${user.name}</li>`;
+          }).join('');
+        }
+    };
+    xhr.send();
+
+</script>
+</body>
+</html>

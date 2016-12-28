@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            width:100px;
+            height:400px;
+            margin: 0 auto;
+
+            /*指定元素为flex容器*/
+            display: -webkit-box;/*老版本 Safari IOS Android Browswer older Webkit browsers*/
+            display: -moz-box;/*老版本语法 Firefox(buggy)*/
+            display: -ms-flexbox; /*混合版本语法 IE10*/
+            display: -webkit-flex; /*新版本语法 Chrome 21+*/
+            display:flex; /*新版本语法 Opera12.1 Firefox22+*/
+
+            /*垂直居中*/
+            /*老版本语法*/
+            -webkit-box-align:center;
+            -moz-box-align:center;
+            /*混合版本语法*/
+            -ms-flex-align:center;
+            /*新版本语法*/
+            -webkit-align-items:center;
+            align-items: center;
+
+            /*水平居中*/
+            /*老版本语法*/
+            -webkit-box-pack:center;
+            -moz-box-pack:center;
+            /*混合版本语法*/
+            -ms-flex-pack:center;
+            /*新版本语法*/
+           /* -webkit-justify-content: center;
+            justify-content: center;*/
+
+            border:1px solid red;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+
+            align-content:stretch;
+        }
+        .box{
+            width:100px;
+            height:100px;
+            line-height: 100px;
+            text-align: center;
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+        .box:nth-child(1){
+            background-color: red;
+        }
+        .box:nth-child(2){
+            background-color: yellow;
+            flex-grow:2;
+            flex-shrink:2;
+            flex-basic:0;
+        }
+        .box:nth-child(3){
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"><h1>1</h1></div>
+    <div class="box"><h1>2</h1></div>
+    <div class="box"><h1>3</h1></div>
+</body>
+</html>
