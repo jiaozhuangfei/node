@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>球</title>
+    <style>
+        .ball{
+            width:50px;
+            height:50px;
+            border-radius: 50%;
+        }
+        .ball:nth-child(even){
+            background-color: lightcoral;
+        }
+        .ball:nth-child(odd){
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+<div  class="ball" style="margin-left:0"></div>
+<div  class="ball" style="margin-left:0"></div>
+<div  class="ball" style="margin-left:0"></div>
+<div  class="ball" style="margin-left:0"></div>
+<div  class="ball" style="margin-left:0"></div>
+<div  class="ball" style="margin-left:0"></div>
+<div  class="ball" style="margin-left:0"></div>
+<div  class="ball" style="margin-left:0"></div>
+<div  class="ball" style="margin-left:0"></div>
+<div  class="ball" style="margin-left:0"></div>
+<script>
+    /**
+     * 移动某个物体
+     * @param ele 要被移动的元素
+     * @param target 移动到的目标
+     * @param cb 移动到目标之后的回调
+     */
+   function move(ele,target,cb){
+       setTimeout(function(){
+           //先获取当前的left值
+            var marginLeft = parseInt(ele.style.marginLeft);
+            //如果当前值小于目标值
+            if(marginLeft < target){
+                //加1
+                marginLeft++;
+                ele.style.marginLeft = marginLeft+'px';
+                //再继续移动
+                move(ele,target,cb);
+            }else{
+                cb&cb();
+            }
+       },13);
+   }
+   var ball1 = document.querySelector('#ball1');
+   var ball2 = document.querySelector('#ball2');
+   var ball3 = document.querySelector('#ball3');
+    move(ball1,100,function(){
+        move(ball2,100,function(){
+            move(ball3,100)
+        })
+    })
+    /**
+     * 1. 改成promise
+     * 2. 支持无限个球
+     */
+</script>
+</body>
+</html>
