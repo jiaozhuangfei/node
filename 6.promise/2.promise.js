@@ -3,6 +3,7 @@
  * 可以基于这个类创建一个实例
  */
 var fs = require('fs');
+var Promise = require('./Promise');
 let readFile = function(filename){
     //resolve 成功解决 调用它表示解决此事件，也就意味着成功了，1.会把状态改成成功态，2会调用成功的回调
     //reject 拒绝 调用它表示此事件失败了，1.会把状态改成失败态，2会调用失败的回调
