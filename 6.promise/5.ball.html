@@ -44,7 +44,6 @@
             }
        },13);
    }
-   var balls = document.querySelectorAll('.ball');
 
    function move(ele,target){
       return new Promise(function(resolve,reject){
@@ -63,15 +62,9 @@
           },13)
       });
    }
-  /* //定义一个初始的索引
-   let index = 0;
-   while(balls[index]){
-      move(balls[index],100)
-      .then(function(){
-          move(balls[index],100);
-      });
-   }*/
-    let index = 0;
+
+
+   /* let index = 0;
     function allMove(arr, target) {
         move(arr[index], target).then(
             function () {
@@ -82,7 +75,16 @@
             }
         )
     }
-    allMove(balls, 100);
+    allMove(balls, 100);*/
+    let balls = document.querySelectorAll('.ball');
+    let index = 0;
+    let len = balls.length;
+    let currPromise = move(balls[index],100);
+    while(index<len-1){
+        currPromise = currPromise.then(function(nextBall){
+            return move(nextBall,100);
+        }.bind(null,balls[++index]));
+    }
     /**
      * 1. 改成promise
      * 2. 支持无限个球
