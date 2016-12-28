@@ -35,8 +35,8 @@ function Person5(name) {
 Person5.prototype.getName = function (){
     console.log(this.name);
 };
-var p2 = new Person5();
-//p2.getName();
+var p5 = new Person5();
+//p5.getName();
 
 function Student5(name,age){
     //调用父类的构造函数 this指向当前子类的实例
