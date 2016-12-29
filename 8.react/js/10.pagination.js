@@ -6,10 +6,23 @@
  *    如果当前页最后一页，则不显示下一页
  */
 let Pagination = React.createClass({
+   getInitialState(){
+     return {number:this.props.number};
+   },
+    //修改当前页
+   changeNumber(number){
+       this.setState({number});
+   },
    render(){
        let pages = [];
+       if(this.state.number > 1){
+           pages.push(<Page changeNumber={this.changeNumber} current={this.state.number-1} class={''} key={0}>&laquo;</Page>);
+       }
        for(let i=1;i<=this.props.total;i++){
-           pages.push(<Page key={i}></Page>);
+           pages.push(<Page changeNumber={this.changeNumber}  class={this.state.number==i?'active':''} key={i} current={i}>{i}</Page>);
+       }
+       if(this.state.number < this.props.total){
+           pages.push(<Page current={this.state.number+1} changeNumber={this.changeNumber} class={''} key={-1}>&raquo;</Page>);
        }
        return (
            <nav>
@@ -24,8 +37,8 @@ let Pagination = React.createClass({
 });
 let Page  = React.createClass({
     render(){
-        return <li><a href="#">&laquo;</a></li>;
+        return <li onClick={this.props.changeNumber.bind(null,this.props.current)} className ={this.props.class}><a href="#">{this.props.children}</a></li>;
     }
 });
 
-ReactDOM.render(<Pagination total={5} number={1}/>,document.querySelector('#container'));
+ReactDOM.render(<Pagination total={5} number={5}/>,document.querySelector('#container'));
