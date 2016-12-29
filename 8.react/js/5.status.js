@@ -9,7 +9,8 @@ var Person = React.createClass({
     },
     handleClick(){
         //setState用来修改状态对象，修改完成后会重新触发组件的渲染
-       this.setState({happy:!this.state.happy});
+       // this.state.happy = !this.state.happy;
+       this.setState({happy:this.state.happy});
     },
     render(){
         console.log('render');
