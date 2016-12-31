@@ -11,7 +11,7 @@
     }
 ```
 3. 执行webpack命令的时候会在当前目录下面找webpack.config.js文件，然后进行打包
-3. 本地安装执行webpack
+4. 本地安装执行webpack
 编写一个脚本
 ```
 "scripts": {
@@ -19,3 +19,22 @@
   }
 ```
 在执行`npm run build`的时候会在当前目录的node_modules下面.bin目录下找webpack.cmd文件执行，也会在当前目录下面找webpack.config.js文件，然后打包输出 
+
+
+5. 使用es6
+```
+npm install babel-core babel-loader babel-preset-es2015 --save-dev
+```
+
+```
+module:{
+        //加载器
+        loaders:[
+            {
+                test:/\.js$/,
+                loader:'babel-loader'
+            }
+        ]
+    }
+```
+

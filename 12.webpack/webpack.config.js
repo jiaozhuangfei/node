@@ -8,5 +8,15 @@ module.exports = {
     output:{
         path:'./build',
         filename:'bundle.js'
+    },
+    //模块加载设置
+    module:{
+        //加载器
+        loaders:[
+            {
+                test:/\.js$/,
+                loader:'babel-loader'
+            }
+        ]
     }
 }
