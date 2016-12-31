@@ -37,4 +37,7 @@ module:{
         ]
     }
 ```
-
+## 加载图标和图片
+```
+npm install url-loader  file-loader
+```
