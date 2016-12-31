@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>筛选</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body ng-controller="myCtrl">
+<select ng-model="language">
+    <option value="chinese">语文</option>
+    <option value="english">英语</option>
+    <option value="math">数学</option>
+</select>
+搜索值：<input type="text" ng-model="query">
+<table class="table table-bordered">
+    <tr>
+        <th>姓名</th>
+        <th>语文</th>
+        <th>英语</th>
+        <th>数学</th>
+    </tr>
+    <tr ng-repeat="score in scores">
+        <td >{{score.name}}</td>
+        <!--ng-bind-html绑定html元素-->
+        <td ng-bind-html="score.chinese |highlight:language=='chinese':query"></td>
+        <td ng-bind-html="score.english |highlight:language=='english':query"></td>
+        <td ng-bind-html="score.math |highlight:language=='math':query"></td>
+    </tr>
+</table>
+<script src="../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.filter('trustHtml', function ($sce) { // 过滤数据，不能修改会造成数据变化导致视图刷新重复调用过滤器 出现死循环
+        return function (input) {
+            return $sce.trustAsHtml(input);
+        }
+    });
+    app.filter('highlight', function () {
+        return function (input,match,query) {
+            return match?input.replace(new RegExp(query),function(val){
+                return '<span style="background: red">'+val+'</span>';
+            }):input;
+
+        }
+    });
+    app.controller('myCtrl',function ($scope) {
+        $scope.language = 'math';
+        $scope.scores = [
+            {name:'张三',chinese:'33',english:'30',math:'120'},
+            {name:'李四',chinese:'88',english:'90',math:'90'},
+            {name:'王五',chinese:'93',english:'61',math:'88'},
+            {name:'赵六',chinese:'63',english:'66',math:'99'},
+        ];
+    });
+</script>
+</body>
+</html>
