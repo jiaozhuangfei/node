@@ -5,7 +5,13 @@ var Message = React.createClass({
         //有且只能返回一个顶级元素
         return (
             <div>
-                珠峰培训
+                <div>
+                    <div>
+                        <div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
 
