@@ -20,13 +20,17 @@ var Counter = React.createClass({
         console.log('100.handleClick 点击');
       this.setState({count:this.state.count + 1});
     },
+    deleteMe(){
+      ReactDOM.unmountComponentAtNode(document.getElementById('container'));
+    },
     render(){
         console.log('4.render 把组件挂载到DOM容器内部');
         return (
             <div style={{border:'1px solid red'}}>
                 <p ref="counter">{this.state.count}</p>
                 <button onClick={this.handleClick}>父组件加1</button>
-                <ChildCounter/>
+                <button onClick={this.deleteMe}>把我删除掉</button>
+                <ChildCounter count={this.state.count}/>
             </div>
         )
     },
@@ -61,10 +65,22 @@ var Counter = React.createClass({
 })
 
 var ChildCounter = React.createClass({
+    //组件将要接收到新的属性
+    componentWillReceiveProps(){
+        console.log('子组件 componentWillReceiveProps 组件将要接收到新的属性');
+    },
+    shouldComponentUpdate(newProps,newState){
+        console.log('子组件 shouldComponentUpdate 组件是否应该被更新')
+        if(newProps.count <5){
+            return true;
+        }else{
+            return false;
+        }
+    },
     render(){
         return (
             <div style={{border:'1px solid green'}}>
-                <p>{}</p>
+                <p>{this.props.count}</p>
                 <button>子组件加1</button>
             </div>
         )
