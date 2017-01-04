@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        #app{
+            width:100%;
+            height:100px;
+            border:1px solid red;
+            position: relative;
+        }
+        #app ul{
+            position: absolute;
+            width:100%;
+            height:30px;
+            bottom:10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        #app ul li{
+            display: inline-block;
+            width:30px;
+            height:30px;
+            border:1px solid #eee;
+            background-color: #999;
+            border-radius: 50%;
+        }
+        #app div li:hover{
+            background-color: #777;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+</body>
+</html>
