@@ -7,6 +7,7 @@
  * 3. socket在握手的时候要使用http服务器
  **/
 let express  = require('express');
+let Message = require('./model').Message;
 let app = express();
 app.use(express.static(__dirname));
 app.get('/',function(req,res){
@@ -31,7 +32,18 @@ io.on('connection',function(socket){//socket 代表与此客户端的连接对�
         //为什么要封装 1. 省事 2. 避免写错消息类型
         //socket.emit('message','服务器说:'+message);
         //向所有的连接到服务器的客户端进行广播
-        io.emit('message',message);
+        Message.create({content:message,createAt:new Date()}).then(function(result){
+            io.emit('message',message);
+        }).catch(()=>{
+            io.emit('message','发言失败');
+        })
+    });
+    //服务器知道客户端想获得最近10条数据了
+    socket.on('getAllMessages',function(){
+        //先按发表时间倒序排列，再最多取10条，最后倒序数组
+      Message.find().sort({createAt:-1}).limit(10).exec().then((data)=>{
+            socket.emit('allMessages',data.reverse());
+      })
     });
 });
 
