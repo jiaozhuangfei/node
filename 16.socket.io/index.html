@@ -2,10 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>珠峰聊天室</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
 </head>
 <body>
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h2 class="text-center">珠峰聊天室</h2>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">今天是1月7号</li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group row">
+                            <label for="content" class="control-label col-md-1" >内容</label>
+                            <div class="col-md-11">
+                               <textarea name="content" id="content" cols="30" rows="10" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-11">
+                                <button class="btn btn-primary">发送</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     // window.io 全局变量
