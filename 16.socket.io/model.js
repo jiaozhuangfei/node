@@ -4,7 +4,8 @@ mongoose.connect('mongodb://127.0.0.1/201611chat');
 //定义schema
 let MessageSchema = new mongoose.Schema({
    content:{type:String,required:true},
-   createAt:Date
+   createAt:Date,
+   username:String
 });
 //定义模型并导出
 module.exports.Message = mongoose.model('Message',MessageSchema);

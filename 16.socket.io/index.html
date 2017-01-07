@@ -48,23 +48,25 @@
    socket.on('message',function(messageObj){
        let messages = document.querySelector('#messages');
        let li = document.createElement('li');
-       li.innerHTML = `${messageObj.content} <span class="pull-right">${messageObj.createAt.toLocaleString()}</span>`;
+       li.innerHTML = `${messageObj.username}:${messageObj.content} <span class="pull-right">${messageObj.createAt}</span>`;
        li.className = 'list-group-item';
        messages.appendChild(li);
    });
    function send(){
       var area = document.querySelector('#content');
       var content = area.value;
-      socket.send(content);
-      area.value = '';
+      if(content){
+          socket.send(content);
+          area.value = '';
+      }
    }
    //客户端向服务器发射事件，事件的类型是getAllMessages
    socket.emit('getAllMessages');
    socket.on('allMessages',function(messages){
-       document.querySelector('#messages').innerHTML = messages.map((message)=>
+       document.querySelector('#messages').innerHTML = messages.map((messageObj)=>
             `<li class="list-group-item">
-                ${message.content}
-                <span class="pull-right">${message.createAt.toLocaleString()}</span>
+                ${messageObj.username}:${messageObj.content}
+                <span class="pull-right">${messageObj.createAt}</span>
              </li>`).join('');
    })
 </script>

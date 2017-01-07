@@ -25,6 +25,7 @@ let server = require('http').createServer(app);
 let io = require('socket.io')(server);
 //服务器端监听客户端的请求
 io.on('connection',function(socket){//socket 代表与此客户端的连接对象
+    let username;
     //监听客户端发过来的消息
     socket.on('message',function(message){
         //console.log(message);
@@ -32,18 +33,25 @@ io.on('connection',function(socket){//socket 代表与此客户端的连接对�
         //为什么要封装 1. 省事 2. 避免写错消息类型
         //socket.emit('message','服务器说:'+message);
         //向所有的连接到服务器的客户端进行广播
-        let messageObj = {content:message,createAt:new Date()};
-        Message.create(messageObj).then(function(result){
-            io.emit('message',messageObj);
-        }).catch(()=>{
-            io.emit('message','发言失败');
-        })
+        if(username){
+            let messageObj = {username,content:message,createAt:new Date().toLocaleString()};
+            Message.create(messageObj).then(function(result){
+                io.emit('message',messageObj);
+            }).catch(()=>{
+                io.emit('message','发言失败');
+            })
+        }else{//如果username没有设置过,需要把本次填写的消息做为用户名
+            username = message;
+            io.emit('message',{username:'系统',content:`欢迎加入${username}聊天室`,createAt:new Date().toLocaleString()});
+        }
+
     });
     //服务器知道客户端想获得最近10条数据了
     socket.on('getAllMessages',function(){
         //先按发表时间倒序排列，再最多取10条，最后倒序数组
       Message.find().sort({createAt:-1}).limit(10).exec().then((data)=>{
             socket.emit('allMessages',data.reverse());
+          socket.send({content:'欢迎光临，请输入呢称',createAt:new Date().toLocaleString()});
       })
     });
 });
