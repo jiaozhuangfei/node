@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <title>珠峰聊天室</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <style>
+        .user{
+            color:blue;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -14,7 +20,7 @@
                     <h2 class="text-center">珠峰聊天室</h2>
                 </div>
                 <div class="panel-body">
-                    <ul class="list-group" id="messages" onclick="remove(event)">
+                    <ul class="list-group" id="messages" onclick="handleClick(event)">
 
                     </ul>
                 </div>
@@ -47,7 +53,7 @@
    });
    //把一个消息对象转成字符串 dataset={id:_id} dataset.id
    function formatMsg(messageObj){
-       return `${messageObj.username}:${messageObj.content} <span data-_id="${messageObj._id}"  class="glyphicon glyphicon-remove"></span><span class="pull-right"> ${messageObj.createAt}</span>`;
+       return `<span class="user">${messageObj.username}</span>:${messageObj.content} <span data-_id="${messageObj._id}"  class="glyphicon glyphicon-remove"></span><span class="pull-right"> ${messageObj.createAt}</span>`;
    }
    socket.on('message',function(messageObj){
        let messages = document.querySelector('#messages');
@@ -73,11 +79,18 @@
              </li>`).join('');
    })
 
-    function remove(event){
-       //先得到要删除的元素ID
-        let _id = event.target.dataset._id;
-        //再发射一个事件
-        socket.emit('remove',_id);
+    function handleClick(event){
+       let cls = event.target.className;//先获得此元素类名
+       let userReg = new RegExp(`(^| +)user($| +)`);//判断此事件源是否拥有user类
+       let removeReg = new RegExp(`(^| +)glyphicon-remove($| +)`);//判断事件源是否拥有glyphicon-remove类
+       if(userReg.test(cls)){
+            document.querySelector('#content').value = `@${event.target.innerHTML} `;
+       }else if(removeReg.test(cls)){
+           //先得到要删除的元素ID
+           let _id = event.target.dataset._id;
+           //再发射一个事件
+           socket.emit('remove',_id);
+       }
     }
     socket.on('removed',function(_id){
         let spans  = document.querySelectorAll('.glyphicon-remove');
