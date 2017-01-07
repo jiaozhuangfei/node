@@ -6,5 +6,18 @@
 </head>
 <body>
 
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    // window.io 全局变量
+   var socket = io('http://localhost:8080/');
+   //当客户端成功连接服务器之后会触发connect事件
+   socket.on('connect',function(){
+       console.log('连接成功');
+       socket.send('服务器你好');
+   });
+   socket.on('message',function(message){
+       console.log(message);
+   });
+</script>
 </body>
 </html>
