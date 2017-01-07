@@ -42,6 +42,7 @@ io.on('connection',function(socket){//socket 代表与此客户端的连接对�
            var toUser = result[1];
            var content = result[2];
            if(sockets[toUser])
+           socket.send({username,content,createAt:new Date().toLocaleString()});
            sockets[toUser].send({username,content,createAt:new Date().toLocaleString()});
         }else{
             if(username){
