@@ -45,15 +45,21 @@ io.on('connection',function(socket){//socket 代表与此客户端的连接对�
             username = message;
             io.emit('message',{username:'系统',content:`欢迎${username}加入聊天室`,createAt:new Date().toLocaleString()});
         }
-
     });
     //服务器知道客户端想获得最近10条数据了
     socket.on('getAllMessages',function(){
         //先按发表时间倒序排列，再最多取10条，最后倒序数组
       Message.find().sort({createAt:-1}).limit(10).exec().then((data)=>{
           socket.emit('allMessages',data.reverse());
-          socket.send({content:'欢迎光临，请输入呢称',createAt:new Date().toLocaleString()});
+          socket.send({username:'系统',content:'欢迎光临，请输入呢称',createAt:new Date().toLocaleString()});
       })
+    });
+
+    socket.on('remove',function(_id){
+        Message.remove({_id}).then(()=>{
+            //通知所有的人删除掉此消息
+            io.emit('removed',_id);
+        })
     });
 });
 
