@@ -23,6 +23,8 @@ app.get('/html/doc',function(req,res){
 let server = require('http').createServer(app);
 //socket.io是依赖http服务的实现握手
 let io = require('socket.io')(server);
+//保存所有的用户名和对应的 socket 的对应关系
+let sockets = {};
 //服务器端监听客户端的请求
 io.on('connection',function(socket){//socket 代表与此客户端的连接对象
     //用户
@@ -34,17 +36,28 @@ io.on('connection',function(socket){//socket 代表与此客户端的连接对�
         //为什么要封装 1. 省事 2. 避免写错消息类型
         //socket.emit('message','服务器说:'+message);
         //向所有的连接到服务器的客户端进行广播
-        if(username){
-            let messageObj = {username,content:message,createAt:new Date().toLocaleString()};
-            Message.create(messageObj).then(function(doc){
-                io.emit('message',doc);
-            }).catch(()=>{
-                io.emit('message','发言失败');
-            })
-        }else{//如果username没有设置过,需要把本次填写的消息做为用户名
-            username = message;
-            io.emit('message',{username:'系统',content:`欢迎${username}加入聊天室`,createAt:new Date().toLocaleString()});
+        var result = message.match(/@(.+) +(.+)/);
+        console.log(message,result);
+        if(result){
+           var toUser = result[1];
+           var content = result[2];
+           if(sockets[toUser])
+           sockets[toUser].send({username,content,createAt:new Date().toLocaleString()});
+        }else{
+            if(username){
+                let messageObj = {username,content:message,createAt:new Date().toLocaleString()};
+                Message.create(messageObj).then(function(doc){
+                    io.emit('message',doc);
+                }).catch(()=>{
+                    io.emit('message','发言失败');
+                })
+            }else{//如果username没有设置过,需要把本次填写的消息做为用户名
+                username = message;
+                sockets[username] = socket;
+                io.emit('message',{username:'系统',content:`欢迎${username}加入聊天室`,createAt:new Date().toLocaleString()});
+            }
         }
+
     });
     //服务器知道客户端想获得最近10条数据了
     socket.on('getAllMessages',function(){
