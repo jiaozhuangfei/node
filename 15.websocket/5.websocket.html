@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+//WebSocket是网页中JS的原生对象
+let socket = new WebSocket('ws://127.0.0.1:8080/');
+socket.onopen = function(){
+    console.log('连接成功');
+    socket.send('服务器你好');
+}
+socket.onmessage = function(event){
+  console.log(event.data);
+}
+</script>
+</body>
+</html>
