@@ -14,8 +14,8 @@
                     <h2 class="text-center">珠峰聊天室</h2>
                 </div>
                 <div class="panel-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">今天是1月7号</li>
+                    <ul class="list-group" id="messages">
+
                     </ul>
                 </div>
                 <div class="panel-footer">
@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-1 col-md-11">
-                                <button class="btn btn-primary">发送</button>
+                                <button type="button" onclick="send()" class="btn btn-primary">发送</button>
                             </div>
                         </div>
                     </form>
@@ -47,8 +47,18 @@
        socket.send('服务器你好');
    });
    socket.on('message',function(message){
-       console.log(message);
+       let messages = document.querySelector('#messages');
+       let li = document.createElement('li');
+       li.innerHTML = message;
+       li.className = 'list-group-item';
+       messages.appendChild(li);
    });
+   function send(){
+      var area = document.querySelector('#content');
+      var content = area.value;
+      socket.send(content);
+      area.value = '';
+   }
 </script>
 </body>
 </html>

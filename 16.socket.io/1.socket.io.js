@@ -26,12 +26,12 @@ let io = require('socket.io')(server);
 io.on('connection',function(socket){//socket 代表与此客户端的连接对象
     //监听客户端发过来的消息
     socket.on('message',function(message){
-        console.log(message);
-        socket.send('服务器说:'+message);
+        //console.log(message);
+        //socket.send('服务器说:'+message);
         //为什么要封装 1. 省事 2. 避免写错消息类型
         //socket.emit('message','服务器说:'+message);
         //向所有的连接到服务器的客户端进行广播
-        io.emit('messsage',message);
+        io.emit('message',message);
     });
 });
 
@@ -53,6 +53,10 @@ server.listen(8080);
  * 2. 当点击按钮的时候，取得文本域中的内容，通过消息发送给服务器
  * 3. 服务器收到消息，广播给所有的客户端。
  * 4. 客户端收到服务器的广播后把此消息转成li添加到消息列表ul里。
+ *
+ * 1. 希望刷新页面的时候能显示之前的最近的10条消息
+ * 2. 实现在文本域中回车立刻发送消息，ctrl+回车进行换行
+ *
  * 二、 实现具名聊天
  * 三、 实现私聊
  * 四、 分房间聊天
