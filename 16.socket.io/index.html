@@ -45,10 +45,10 @@
    socket.on('connect',function(){
        console.log('连接成功');
    });
-   socket.on('message',function(message){
+   socket.on('message',function(messageObj){
        let messages = document.querySelector('#messages');
        let li = document.createElement('li');
-       li.innerHTML = message;
+       li.innerHTML = `${messageObj.content} <span class="pull-right">${messageObj.createAt.toLocaleString()}</span>`;
        li.className = 'list-group-item';
        messages.appendChild(li);
    });
@@ -64,7 +64,7 @@
        document.querySelector('#messages').innerHTML = messages.map((message)=>
             `<li class="list-group-item">
                 ${message.content}
-                <span class="pull-right">${message.createAt}</span>
+                <span class="pull-right">${message.createAt.toLocaleString()}</span>
              </li>`).join('');
    })
 </script>

@@ -32,8 +32,9 @@ io.on('connection',function(socket){//socket 代表与此客户端的连接对�
         //为什么要封装 1. 省事 2. 避免写错消息类型
         //socket.emit('message','服务器说:'+message);
         //向所有的连接到服务器的客户端进行广播
-        Message.create({content:message,createAt:new Date()}).then(function(result){
-            io.emit('message',message);
+        let messageObj = {content:message,createAt:new Date()};
+        Message.create(messageObj).then(function(result){
+            io.emit('message',messageObj);
         }).catch(()=>{
             io.emit('message','发言失败');
         })
