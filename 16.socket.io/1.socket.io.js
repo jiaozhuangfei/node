@@ -25,6 +25,7 @@ let server = require('http').createServer(app);
 let io = require('socket.io')(server);
 //服务器端监听客户端的请求
 io.on('connection',function(socket){//socket 代表与此客户端的连接对象
+    //用户
     let username;
     //监听客户端发过来的消息
     socket.on('message',function(message){
@@ -35,14 +36,14 @@ io.on('connection',function(socket){//socket 代表与此客户端的连接对�
         //向所有的连接到服务器的客户端进行广播
         if(username){
             let messageObj = {username,content:message,createAt:new Date().toLocaleString()};
-            Message.create(messageObj).then(function(result){
-                io.emit('message',messageObj);
+            Message.create(messageObj).then(function(doc){
+                io.emit('message',doc);
             }).catch(()=>{
                 io.emit('message','发言失败');
             })
         }else{//如果username没有设置过,需要把本次填写的消息做为用户名
             username = message;
-            io.emit('message',{username:'系统',content:`欢迎加入${username}聊天室`,createAt:new Date().toLocaleString()});
+            io.emit('message',{username:'系统',content:`欢迎${username}加入聊天室`,createAt:new Date().toLocaleString()});
         }
 
     });
@@ -50,7 +51,7 @@ io.on('connection',function(socket){//socket 代表与此客户端的连接对�
     socket.on('getAllMessages',function(){
         //先按发表时间倒序排列，再最多取10条，最后倒序数组
       Message.find().sort({createAt:-1}).limit(10).exec().then((data)=>{
-            socket.emit('allMessages',data.reverse());
+          socket.emit('allMessages',data.reverse());
           socket.send({content:'欢迎光临，请输入呢称',createAt:new Date().toLocaleString()});
       })
     });

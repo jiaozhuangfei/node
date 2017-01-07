@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>珠峰聊天室</title>
-    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 </head>
 <body>
 <div class="container">
@@ -45,10 +45,14 @@
    socket.on('connect',function(){
        console.log('连接成功');
    });
+   //把一个消息对象转成字符串
+   function formatMsg(messageObj){
+       return `${messageObj.username}:${messageObj.content} <span class="glyphicon glyphicon-remove"></span><span class="pull-right"> ${messageObj.createAt}</span>`;
+   }
    socket.on('message',function(messageObj){
        let messages = document.querySelector('#messages');
        let li = document.createElement('li');
-       li.innerHTML = `${messageObj.username}:${messageObj.content} <span class="pull-right">${messageObj.createAt}</span>`;
+       li.innerHTML = formatMsg(messageObj);
        li.className = 'list-group-item';
        messages.appendChild(li);
    });
@@ -65,8 +69,7 @@
    socket.on('allMessages',function(messages){
        document.querySelector('#messages').innerHTML = messages.map((messageObj)=>
             `<li class="list-group-item">
-                ${messageObj.username}:${messageObj.content}
-                <span class="pull-right">${messageObj.createAt}</span>
+                ${formatMsg(messageObj)}
              </li>`).join('');
    })
 </script>
