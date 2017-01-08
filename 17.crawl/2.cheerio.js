@@ -14,17 +14,18 @@ let html = `
 `;
 //可以把html字符串转成一个 $ 对象
 let $ = cheerio.load(html);
-let items= [];
+let items= [];//声明一个空数组
+//寻找 类名为.hd 下面 类名为.title下面的  所有标签
 $('.hd .title a').each(function(){
-   let $me = $(this);
-   let result = $me.attr('href').match(/b=(\d+)/);
+   let $me = $(this);//类似于把原生DOM转成jquery
+   let result = $me.attr('href').match(/b=(\d+)/);//使用正则把href中的ID提取出来
    let item = {
-       id:result[1],
-       name:$me.text(),
-       url:`http://top.baidu.com${$me.attr('href').slice(1)}`,
+       id:result[1],//获得ID
+       name:$me.text(),//获得内容
+       url:`http://top.baidu.com${$me.attr('href').slice(1)}`,//获得url地址
    }
    items.push(item);
 });
-console.log(items);
+
 
 
