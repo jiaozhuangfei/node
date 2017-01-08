@@ -1,4 +1,7 @@
 ## 1. 安装 linux服务器
+```
+apt-get update
+```
 ## 2. 安装node
 ```
 https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
@@ -8,11 +11,16 @@ https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-di
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
-其实它是安装到了 /usr/local/bin/node
+
+sudo ln -s 源文件 目标文件 
+sudo ln -s /usr/local/bin/node
 
 ## 3. 安装 npm 
 ```
 apt install npm
+npm install n -g
+n latest
+/usr/local/bin/node
 ```
 ## 4. 安装mongodb
 ```
