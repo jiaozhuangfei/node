@@ -16,3 +16,10 @@ app.get('/',function(req,res){
     });
 });
 app.listen(9090);
+
+let CronJob  = require('cron').CronJob;
+let main = require('./tasks/main');
+let job = new CronJob('0 * * * * *',function(){
+    main();
+});
+job.start();
