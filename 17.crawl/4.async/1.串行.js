@@ -9,7 +9,7 @@ async.series([
     function (cb) {
        setTimeout(function(){
            console.log('买菜');
-           cb(null,"菜菜");
+           cb(null,"菜");
        },1000)
     },
     function (cb) {

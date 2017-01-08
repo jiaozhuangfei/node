@@ -3,12 +3,13 @@ let async = require('async');
 console.time('cost');
 // A -> 菜 4
 // B -> 米 1
-function parallel(tasks,callback){
+/*function parallel(tasks,callback){
    let result = [];
    let count = 0;
+   //index 任务的索引
    function cb(index,err,data){
-        count++;
-        if(err){
+        count++;//完成任务数量立即加1
+        if(err){//如果有错误，立刻执行回调
             result[index] = data;
             callback(err,result);
         }else{
@@ -18,11 +19,13 @@ function parallel(tasks,callback){
             }
         }
    }
+   //循环所有的任务并依次全始全部执行
    for(let i=0;i<tasks.length;i++){
+       //传的回调函数已经绑定了第一个参数为当前任务在总任务数组中的索引
        tasks[i](cb.bind(null,i));
    }
-}
-parallel([
+}*/
+async.parallel([
     function (cb) {
         setTimeout(function () {
             console.log('买菜');
