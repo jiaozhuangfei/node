@@ -3,6 +3,8 @@ let iconv = require('iconv-lite');
 let cheerio = require('cheerio');
 let url = 'http://top.baidu.com/buzz?b=26&c=1&fr=topcategory_c1';
 //读取接口返回的数据并且把数据传给callback
+//日志记录器的名字一般是有规范的， 项目名:文件名
+let debug = require('debug')('201611crawl:read');
 module.exports = function(url,callback){
     //编码为null 那么 body会保留原始的buffer类型
    request({url,encoding:null},function(err,response,body){
@@ -17,12 +19,14 @@ module.exports = function(url,callback){
             //得到元素列表
             $('.keyword .list-title').each(function(){
                 let $this = $(this);
-                items.push({
+                let item= {
                     name:$this.text(),
                     url:$this.attr('href')
-                });
+                };
+                debug('读到电影:'+item.name);
+                items.push(item);
             });
-
+            debug('读取电影完毕');
             callback(null,items);//[{name:'你的名字',url:'https://www.baidu.com/baidu'}]
         }else{
             callback('请求数据失败');
@@ -30,6 +34,8 @@ module.exports = function(url,callback){
    })
 }
 
+/*
 module.exports(url,function(err,items){
     console.log(items);
 });
+*/
