@@ -13,10 +13,23 @@ module.exports = function(url,callback){
             //用cheerio把响应体字符串转成jquery对象
             let $ = cheerio.load(body);
             let items = [];
-            //
+            //解析$中的电影列表，得到它们的名字和超链接,转成对象放在items里
+            //得到元素列表
+            $('.keyword .list-title').each(function(){
+                let $this = $(this);
+                items.push({
+                    name:$this.text(),
+                    url:$this.attr('href')
+                });
+            });
+
             callback(null,items);//[{name:'你的名字',url:'https://www.baidu.com/baidu'}]
         }else{
             callback('请求数据失败');
         }
    })
 }
+
+module.exports(url,function(err,items){
+    console.log(items);
+});
